@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using CadVeicular.Application.Messages;
 using CadVeicular.Application.Services.Interfaces;
 using CadVeicular.Application.ViewModel;
 using CadVeicular.Domain.Interfaces.Services;
 using CadVeicular.Domain.Models;
+using MassTransit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +17,13 @@ namespace CadVeicular.Application.Services
     {
         private readonly IMarcaService _marcaService;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publisher;
 
-
-        public MarcaAppService(IMarcaService marcaService, IMapper mapper)
+        public MarcaAppService(IMarcaService marcaService, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _marcaService = marcaService;
             _mapper = mapper;
+            _publisher = publishEndpoint;
         }
 
         public async Task<IEnumerable<MarcaViewModel>> ListarMarca()
@@ -33,6 +36,14 @@ namespace CadVeicular.Application.Services
         {
             var novaMarca = new Marca(novaMarcaViewModel.Nome, novaMarcaViewModel.Status);
             var marcaCadastrada = await _marcaService.CadastrarMarca(novaMarca);
+
+            await _publisher.Publish<CustomerCreatedMarcaEvent>(new
+            {
+                Id = marcaCadastrada.Id.ToString(),
+                Nome = marcaCadastrada.Nome,
+                Status = novaMarca.Status.ToString()
+
+            });
             return _mapper.Map<MarcaViewModel>(marcaCadastrada);
         }
     }
