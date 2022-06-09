@@ -11,7 +11,7 @@ namespace CadVeicular.Application.ViewModel
         public long Id { get; set; }
         public string Nome { get; set; }
         public bool Status { get; set; }
-        public VeiculoViewModel veiculoViewModel { get; set; }
+     
 
     }
 }

@@ -10,6 +10,6 @@ namespace CadVeicular.Application.ViewModel
     {
         public string Nome { get; set; }
         public bool Status { get; set; }
-        public NovoVeiculoViewModel novoVeiculoViewMocel { get; set; }
+      
     }
 }

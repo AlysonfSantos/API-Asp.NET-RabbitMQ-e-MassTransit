@@ -2,11 +2,14 @@
 
 namespace CadVeicular.Controllers
 {
-    public class HomeController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class HomeController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Teste()
         {
-            return View();
+            return Ok();
         }
     }
 }
