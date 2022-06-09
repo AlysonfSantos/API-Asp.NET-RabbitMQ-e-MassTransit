@@ -37,13 +37,6 @@ namespace CadVeicular.Application.Services
             var novaMarca = new Marca(novaMarcaViewModel.Nome, novaMarcaViewModel.Status);
             var marcaCadastrada = await _marcaService.CadastrarMarca(novaMarca);
 
-            await _publisher.Publish<CustomerCreatedMarcaEvent>(new
-            {
-                Id = marcaCadastrada.Id.ToString(),
-                Nome = marcaCadastrada.Nome,
-                Status = novaMarca.Status.ToString()
-
-            });
             return _mapper.Map<MarcaViewModel>(marcaCadastrada);
         }
     }
