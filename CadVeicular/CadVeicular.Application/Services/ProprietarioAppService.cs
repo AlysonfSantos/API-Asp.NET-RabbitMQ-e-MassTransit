@@ -40,20 +40,6 @@ namespace CadVeicular.Application.Services
 
             var ProprietarioCadastrado = await _proprietarioService.CadastrarProprietario(novoProprietario);
 
-            await _publisher.Publish<CustomerCreatedProprietarioEvent>(new
-            {
-                 Id = ProprietarioCadastrado.Id.ToString(),
-                 Nome = ProprietarioCadastrado.Nome,
-                 Documento = ProprietarioCadastrado.Documento,
-                 E_mail = ProprietarioCadastrado.E_mail,
-                 Status = ProprietarioCadastrado.Status.ToString(),
-                 Cidade = ProprietarioCadastrado.Cidade,
-                 CEP = ProprietarioCadastrado.CEP,
-                 Estado = ProprietarioCadastrado.Estado,
-                 Numero = ProprietarioCadastrado.Numero.ToString(),
-                 Loradouro = ProprietarioCadastrado.Loradouro
-            });
-
             return _mapper.Map<ProprietarioViewModel>(ProprietarioCadastrado);
 
         }
